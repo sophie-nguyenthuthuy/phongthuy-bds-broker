@@ -38,28 +38,35 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v3
-        with:
-          version: "0.4.27"
 
       - name: Setup Python 3.12
         run: uv python install 3.12
 
-      - name: Install deps
+      - name: Create venv + install ontology + API
         run: |
-          uv sync --all-packages --extra dev
+          uv venv .venv --python 3.12
+          uv pip install --python .venv/bin/python \
+            -e packages/ontology \
+            -e "apps/api"
+          uv pip install --python .venv/bin/python \
+            pytest pytest-asyncio mypy ruff \
+            "pydantic[email]" email-validator
 
       - name: Lint (ruff)
-        run: uv run ruff check apps/api packages/ontology
+        run: .venv/bin/ruff check apps/api packages/ontology
 
-      - name: Type-check (mypy)
-        run: uv run mypy apps/api/src packages/ontology/src || true
-        # mypy strict đang còn warning ở v0, không fail build cho đến khi clean.
+      - name: Type-check (mypy — non-blocking ở v0)
+        run: .venv/bin/mypy apps/api/src packages/ontology/src || true
 
       - name: Run ontology tests
-        run: uv run pytest packages/ontology/tests -v
+        env:
+          PYTHONPATH: packages/ontology/src
+        run: .venv/bin/pytest packages/ontology/tests -v
 
       - name: Run API tests
-        run: uv run pytest apps/api/tests -v
+        env:
+          PYTHONPATH: apps/api/src
+        run: .venv/bin/pytest apps/api/tests -v
 
   web:
     name: Next.js — lint + type + build
