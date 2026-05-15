@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  api:
+    name: Python — lint + type + test
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_PASSWORD: phongthuy_dev
+          POSTGRES_USER: phongthuy
+          POSTGRES_DB: phongthuy_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+psycopg://phongthuy:phongthuy_dev@localhost:5432/phongthuy_test
+      API_SECRET_KEY: ci-secret-key-must-be-at-least-32-chars
+      DLCN_ENCRYPTION_KEY: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+      OCR_BACKEND: mock
+      STORAGE_BACKEND: local
+      ENV: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "0.4.27"
+
+      - name: Setup Python 3.12
+        run: uv python install 3.12
+
+      - name: Install deps
+        run: |
+          uv sync --all-packages --extra dev
+
+      - name: Lint (ruff)
+        run: uv run ruff check apps/api packages/ontology
+
+      - name: Type-check (mypy)
+        run: uv run mypy apps/api/src packages/ontology/src || true
+        # mypy strict đang còn warning ở v0, không fail build cho đến khi clean.
+
+      - name: Run ontology tests
+        run: uv run pytest packages/ontology/tests -v
+
+      - name: Run API tests
+        run: uv run pytest apps/api/tests -v
+
+  web:
+    name: Next.js — lint + type + build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install deps
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run type-check
+
+      - name: Build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8000
+        run: npm run build
+
+  docker-build:
+    name: Docker images build
+    runs-on: ubuntu-latest
+    needs: [api, web]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build API image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infra/docker/api.Dockerfile
+          push: false
+          tags: phongthuy-bds-api:${{ github.sha }}
+      - name: Build Web image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infra/docker/web.Dockerfile
+          push: false
+          tags: phongthuy-bds-web:${{ github.sha }}

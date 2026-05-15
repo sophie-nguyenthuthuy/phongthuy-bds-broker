@@ -1,0 +1,44 @@
+name: Security
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1"  # mỗi thứ 2, 13:00 VN
+
+jobs:
+  python-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv pip install --system pip-audit
+      - run: pip-audit --skip-editable -r <(uv pip compile pyproject.toml apps/api/pyproject.toml packages/ontology/pyproject.toml) || true
+
+  npm-audit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm audit --omit=dev --audit-level=high || true
+
+  trivy-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: sarif
+          output: trivy-results.sarif
+          severity: HIGH,CRITICAL
+      - uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-results.sarif

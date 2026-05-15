@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<title>Báo cáo phong thủy — {{ customer.full_name }}</title>
+<style>
+@page {
+    size: A4;
+    margin: 18mm 16mm 22mm 16mm;
+    @bottom-center {
+        content: "Trang " counter(page) " / " counter(pages)
+                 " · {{ tenant.name }} · {{ generated_at }}";
+        font-family: 'Be Vietnam Pro', sans-serif;
+        font-size: 9pt;
+        color: #888;
+    }
+}
+
+body {
+    font-family: 'Be Vietnam Pro', 'Inter', system-ui, sans-serif;
+    color: #222;
+    font-size: 11pt;
+    line-height: 1.5;
+}
+
+h1 { font-size: 22pt; color: #8B0000; margin-bottom: 4mm; }
+h2 { font-size: 14pt; color: #8B0000; border-bottom: 1px solid #d9b89c; padding-bottom: 2mm; margin-top: 8mm; }
+h3 { font-size: 12pt; color: #444; margin-top: 6mm; }
+
+.header { display: flex; justify-content: space-between; align-items: end; }
+.muted { color: #888; font-size: 9pt; }
+
+.kv { width: 100%; border-collapse: collapse; margin-top: 3mm; }
+.kv td { padding: 2mm 3mm; border-bottom: 1px solid #eee; vertical-align: top; }
+.kv td:first-child { color: #666; width: 35%; }
+
+.directions { width: 100%; border-collapse: collapse; margin-top: 3mm; }
+.directions th, .directions td {
+    padding: 2mm 3mm;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+.directions th { background: #f6efe6; font-weight: 600; }
+.directions tr.good td { background: #f1f9ee; }
+.directions tr.bad td { background: #fbecec; }
+
+.match-box {
+    border: 2px solid;
+    padding: 4mm;
+    border-radius: 3mm;
+    margin-top: 4mm;
+}
+.match-good { border-color: #4a8a3c; background: #f3faef; }
+.match-bad  { border-color: #b84444; background: #fbf0f0; }
+
+.good-day {
+    border: 1px solid #d9b89c;
+    border-left: 4px solid #8B0000;
+    padding: 3mm 4mm;
+    margin: 2mm 0;
+    border-radius: 1mm;
+    page-break-inside: avoid;
+}
+.good-day .date { font-size: 13pt; font-weight: 600; color: #8B0000; }
+.good-day .badge { display: inline-block; background: #f1f0e0; padding: 1mm 2mm; border-radius: 1mm; font-size: 9pt; margin-left: 2mm; }
+
+.disclaimer {
+    margin-top: 8mm;
+    padding: 3mm;
+    background: #fafafa;
+    border-left: 3px solid #888;
+    font-size: 9pt;
+    color: #555;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div>
+        <h1>Báo cáo phong thủy bất động sản</h1>
+        <div class="muted">{{ tenant.name }} · Mã báo cáo: {{ report.id }}</div>
+    </div>
+    <div class="muted">Ngày lập: {{ generated_at }}</div>
+</div>
+
+<h2>1. Thông tin chủ nhân & bất động sản</h2>
+
+<table class="kv">
+    <tr><td>Khách hàng</td><td><strong>{{ customer.full_name }}</strong></td></tr>
+    <tr><td>Năm sinh dương lịch</td><td>{{ customer.birth_date.year }} ({{ customer.gender_label }})</td></tr>
+    <tr><td>Năm sinh âm lịch</td><td>{{ result.cung_menh.lunar_year }} — {{ result.cung_menh.can_chi }}</td></tr>
+    <tr><td>Cung mệnh</td><td><strong>{{ result.cung_menh.cung }}</strong> ({{ result.cung_menh.nhom }}), ngũ hành: {{ result.cung_menh.ngu_hanh_cung }}</td></tr>
+    <tr><td>Nạp âm năm sinh</td><td>{{ result.cung_menh.ngu_hanh_nap_am }}</td></tr>
+    <tr><td>Địa chỉ bất động sản</td><td>{{ land_title.address or "—" }}</td></tr>
+    <tr><td>Thửa / tờ bản đồ</td><td>{{ land_title.thua }}/{{ land_title.to_bd }}</td></tr>
+    <tr><td>Diện tích</td><td>{{ land_title.area_m2 or "—" }} m²</td></tr>
+    <tr><td>Hướng nhà (cửa chính)</td><td><strong>{{ land_title.house_direction or "Chưa xác định" }}</strong></td></tr>
+</table>
+
+{% if result.house_match %}
+<h2>2. Hợp tuổi với hướng nhà</h2>
+
+<div class="match-box {{ 'match-good' if result.house_match.is_good else 'match-bad' }}">
+    <div style="font-size:13pt; margin-bottom:2mm;">
+        Hướng {{ result.house_match.house_direction }} →
+        <strong>{{ result.house_match.matched_quality }}</strong>
+        ({{ 'TỐT' if result.house_match.is_good else 'XẤU' }})
+    </div>
+    <div>{{ result.house_match.advice }}</div>
+</div>
+{% endif %}
+
+<h2>{{ 3 if result.house_match else 2 }}. 8 hướng theo bát trạch</h2>
+
+<table class="directions">
+    <thead>
+        <tr><th>Sao bát trạch</th><th>Hướng</th><th>Đánh giá</th><th>Diễn giải</th></tr>
+    </thead>
+    <tbody>
+    {% for d in result.bat_trach %}
+        <tr class="{{ 'good' if d.is_good else 'bad' }}">
+            <td>{{ d.quality }}</td>
+            <td>{{ d.direction }}</td>
+            <td>{{ 'Tốt' if d.is_good else 'Xấu' }}</td>
+            <td>{{ d.description }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h2>{{ 4 if result.house_match else 3 }}. Ngày tốt</h2>
+
+{% for purpose, days in result.good_days.items() %}
+<h3>{{ purpose_labels[purpose] }}</h3>
+
+{% if days %}
+    {% for d in days %}
+    <div class="good-day">
+        <div>
+            <span class="date">{{ d.solar_date.strftime("%d/%m/%Y") }}</span>
+            <span class="badge">Âm lịch: {{ d.lunar_date }}</span>
+            <span class="badge">{{ d.can_chi_day }}</span>
+            <span class="badge">{{ d.hoang_dao_than }}</span>
+        </div>
+        {% if d.reasons_good %}
+        <div style="margin-top: 1mm; color:#2a6b1f;">
+            ✓ {{ d.reasons_good|join("; ") }}
+        </div>
+        {% endif %}
+        {% if d.reasons_bad %}
+        <div style="margin-top: 1mm; color:#8a3a3a;">
+            ⚠ {{ d.reasons_bad|join("; ") }}
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+{% else %}
+    <p class="muted">Không có ngày tốt phù hợp trong khoảng đã chọn — hãy mở rộng khoảng thời gian.</p>
+{% endif %}
+{% endfor %}
+
+<div class="disclaimer">
+    <strong>Lưu ý.</strong> Báo cáo phong thủy mang tính tham khảo văn hóa Việt Nam, không
+    phải tư vấn đầu tư bất động sản, pháp lý hay kỹ thuật xây dựng. Quý khách nên kết hợp
+    với ý kiến chuyên gia chuyên ngành (kiến trúc sư, công chứng viên, luật sư) trước khi
+    ra quyết định mua/bán/xây dựng.
+    Dữ liệu cá nhân được xử lý theo NĐ 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân;
+    quý khách có quyền yêu cầu xóa hồ sơ bất kỳ lúc nào.
+</div>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+[project]
+name = "phongthuy-ontology"
+version = "0.1.0"
+description = "Phong thủy ontology — cung mệnh, bát trạch, can chi, ngũ hành as data"
+requires-python = ">=3.12"
+readme = "README.md"
+license = { file = "../../LICENSE" }
+dependencies = [
+    "pydantic>=2.6",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "mypy>=1.10",
+    "ruff>=0.5",
+    "types-PyYAML",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/phongthuy_ontology"]
+include = ["src/phongthuy_ontology/**/*.yaml"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"data" = "phongthuy_ontology/data"

@@ -1,0 +1,55 @@
+[project]
+name = "phongthuy-bds-monorepo"
+version = "0.1.0"
+description = "Phong thủy BĐS plug-in for VN real-estate brokers — monorepo root"
+requires-python = ">=3.12"
+
+[tool.uv.workspace]
+members = ["apps/api", "packages/ontology"]
+
+[tool.uv.sources]
+phongthuy-ontology = { workspace = true }
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["apps/api/src", "packages/ontology/src"]
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W",    # pycodestyle + pyflakes
+    "I",              # isort
+    "B",              # bugbear
+    "UP",             # pyupgrade
+    "N",              # pep8-naming
+    "RUF",            # ruff-specific
+    "SIM",            # simplify
+    "PT",             # pytest
+]
+ignore = [
+    "E501",   # line too long (covered by formatter)
+    "B008",   # function call in default arg (FastAPI Depends)
+    "N812",   # lowercase imported as non-lowercase (false positives with VN terms)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["B", "PT011"]
+"alembic/**" = ["E", "F", "N"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+exclude = ["alembic/", "build/", "dist/"]
+
+[[tool.mypy.overrides]]
+module = ["paddleocr.*", "weasyprint.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["apps/api/tests", "packages/ontology/tests"]
+addopts = "--strict-markers -ra"
+markers = [
+    "integration: integration tests (require docker)",
+    "slow: slow tests",
+]

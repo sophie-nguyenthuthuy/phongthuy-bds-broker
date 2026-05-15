@@ -1,0 +1,135 @@
+# Bát Trạch — 8 hướng cho mỗi cung mệnh.
+# Nguồn: Bát Trạch Minh Cảnh (八宅明鏡), Cố Cảnh Hiên, đời Thanh.
+#
+# Schema:
+#   <cung>:
+#     chinh_vi: <hướng>       # hướng chính/phục vị của cung
+#     huong_tot:
+#       Sinh Khí: <hướng>     # tài lộc, công danh, sinh khí
+#       Thiên Y:  <hướng>     # sức khỏe, trường thọ
+#       Diên Niên: <hướng>    # tình duyên, hòa thuận, sống lâu
+#       Phục Vị:  <hướng>     # bình ổn, học hành, công danh nhỏ
+#     huong_xau:
+#       Tuyệt Mệnh: <hướng>   # nặng nhất — tổn mạng
+#       Ngũ Quỷ:    <hướng>   # mất mát tiền của, kiện tụng
+#       Lục Sát:    <hướng>   # tranh cãi, thị phi
+#       Họa Hại:    <hướng>   # ốm đau, kiện cáo nhẹ
+#
+# 8 hướng dùng tên tắt VN: Bắc, Nam, Đông, Tây, Đông Bắc, Đông Nam, Tây Bắc, Tây Nam.
+
+version: "1.0.0"
+source: "Bát Trạch Minh Cảnh — Cố Cảnh Hiên, đời Thanh"
+
+# ─── Đông Tứ Mệnh ─────────────────────────────────────────────────
+Khảm:
+  chinh_vi: Bắc
+  nhom: Đông tứ mệnh
+  huong_tot:
+    Sinh Khí: Đông Nam
+    Thiên Y: Đông
+    Diên Niên: Nam
+    Phục Vị: Bắc
+  huong_xau:
+    Tuyệt Mệnh: Tây Nam
+    Ngũ Quỷ: Đông Bắc
+    Lục Sát: Tây Bắc
+    Họa Hại: Tây
+
+Ly:
+  chinh_vi: Nam
+  nhom: Đông tứ mệnh
+  huong_tot:
+    Sinh Khí: Đông
+    Thiên Y: Đông Nam
+    Diên Niên: Bắc
+    Phục Vị: Nam
+  huong_xau:
+    Tuyệt Mệnh: Tây Bắc
+    Ngũ Quỷ: Tây
+    Lục Sát: Đông Bắc
+    Họa Hại: Tây Nam
+
+Chấn:
+  chinh_vi: Đông
+  nhom: Đông tứ mệnh
+  huong_tot:
+    Sinh Khí: Nam
+    Thiên Y: Bắc
+    Diên Niên: Đông Nam
+    Phục Vị: Đông
+  huong_xau:
+    Tuyệt Mệnh: Tây
+    Ngũ Quỷ: Tây Bắc
+    Lục Sát: Tây Nam
+    Họa Hại: Đông Bắc
+
+Tốn:
+  chinh_vi: Đông Nam
+  nhom: Đông tứ mệnh
+  huong_tot:
+    Sinh Khí: Bắc
+    Thiên Y: Nam
+    Diên Niên: Đông
+    Phục Vị: Đông Nam
+  huong_xau:
+    Tuyệt Mệnh: Đông Bắc
+    Ngũ Quỷ: Tây Nam
+    Lục Sát: Tây
+    Họa Hại: Tây Bắc
+
+# ─── Tây Tứ Mệnh ──────────────────────────────────────────────────
+Càn:
+  chinh_vi: Tây Bắc
+  nhom: Tây tứ mệnh
+  huong_tot:
+    Sinh Khí: Tây
+    Thiên Y: Đông Bắc
+    Diên Niên: Tây Nam
+    Phục Vị: Tây Bắc
+  huong_xau:
+    Tuyệt Mệnh: Nam
+    Ngũ Quỷ: Đông
+    Lục Sát: Bắc
+    Họa Hại: Đông Nam
+
+Đoài:
+  chinh_vi: Tây
+  nhom: Tây tứ mệnh
+  huong_tot:
+    Sinh Khí: Tây Bắc
+    Thiên Y: Tây Nam
+    Diên Niên: Đông Bắc
+    Phục Vị: Tây
+  huong_xau:
+    Tuyệt Mệnh: Đông
+    Ngũ Quỷ: Nam
+    Lục Sát: Đông Nam
+    Họa Hại: Bắc
+
+Cấn:
+  chinh_vi: Đông Bắc
+  nhom: Tây tứ mệnh
+  huong_tot:
+    Sinh Khí: Tây Nam
+    Thiên Y: Tây Bắc
+    Diên Niên: Tây
+    Phục Vị: Đông Bắc
+  huong_xau:
+    Tuyệt Mệnh: Bắc
+    Ngũ Quỷ: Đông Nam
+    Lục Sát: Nam
+    Họa Hại: Đông
+
+Khôn:
+  chinh_vi: Tây Nam
+  nhom: Tây tứ mệnh
+  huong_tot:
+    Sinh Khí: Đông Bắc
+    Thiên Y: Tây
+    Diên Niên: Tây Bắc
+    Phục Vị: Tây Nam
+  huong_xau:
+    Tuyệt Mệnh: Bắc
+    Ngũ Quỷ: Đông Nam
+    Lục Sát: Nam
+    Họa Hại: Đông

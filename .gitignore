@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.uv-cache/
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+.next/
+.turbo/
+.pnpm-store/
+out/
+*.tsbuildinfo
+
+# Env
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Testing
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# DB / storage
+*.sqlite3
+storage/uploads/
+storage/reports/
+!storage/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# Generated
+apps/api/src/phongthuy_bds.egg-info/
+packages/ontology/src/phongthuy_ontology.egg-info/
+
+# OCR temp
+tmp/
+*.tmp.pdf
