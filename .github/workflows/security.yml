@@ -6,14 +6,30 @@ on:
   schedule:
     - cron: "0 6 * * 1"  # mỗi thứ 2, 13:00 VN
 
+# Cần security-events: write để upload SARIF cho code-scanning.
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   python-audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v3
-      - run: uv pip install --system pip-audit
-      - run: pip-audit --skip-editable -r <(uv pip compile pyproject.toml apps/api/pyproject.toml packages/ontology/pyproject.toml) || true
+      - name: Setup Python 3.12
+        run: uv python install 3.12
+      - name: Install pip-audit trong venv (Ubuntu 24.04 PEP 668)
+        run: |
+          uv venv .audit-venv --python 3.12
+          uv pip install --python .audit-venv/bin/python pip-audit
+      - name: Compile requirements
+        run: |
+          uv pip compile \
+            pyproject.toml apps/api/pyproject.toml packages/ontology/pyproject.toml \
+            -o /tmp/requirements.txt
+      - name: Audit
+        run: .audit-venv/bin/pip-audit --skip-editable -r /tmp/requirements.txt || true
 
   npm-audit:
     runs-on: ubuntu-latest
@@ -38,7 +54,9 @@ jobs:
           format: sarif
           output: trivy-results.sarif
           severity: HIGH,CRITICAL
+          exit-code: "0"
       - uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: trivy-results.sarif
+        continue-on-error: true   # public repos cá nhân chưa enable code-scanning
