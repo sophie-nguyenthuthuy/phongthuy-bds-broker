@@ -16,9 +16,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=ghcr.io/astral-sh/uv:0.4.27 /uv /usr/local/bin/uv
 
 WORKDIR /app
-COPY pyproject.toml uv.lock* ./
-COPY apps/api/pyproject.toml apps/api/
-COPY packages/ontology/pyproject.toml packages/ontology/
+COPY pyproject.toml uv.lock* LICENSE README.md ./
+COPY apps/api/pyproject.toml apps/api/README.md apps/api/
+COPY packages/ontology/pyproject.toml packages/ontology/README.md packages/ontology/
 COPY apps/api/src apps/api/src
 COPY apps/api/alembic apps/api/alembic
 COPY apps/api/alembic.ini apps/api/alembic.ini
