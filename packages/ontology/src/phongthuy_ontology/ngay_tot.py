@@ -174,19 +174,23 @@ def evaluate_day(
         good.append(f"Ngày {day_cc.chi} — trùng chi tuổi chủ nhà, hợp")
 
     # ─── Sát Chủ / Thụ Tử ────────────────────────────────────────
-    if purpose in {Purpose.DONG_THO, Purpose.DAT_MONG}:
-        if SAT_CHU_THANG.get(lunar.month) == day_cc.chi:
-            score -= 40
-            bad.append(f"Sát Chủ tháng {lunar.month} — kỵ động thổ")
+    if (
+        purpose in {Purpose.DONG_THO, Purpose.DAT_MONG}
+        and SAT_CHU_THANG.get(lunar.month) == day_cc.chi
+    ):
+        score -= 40
+        bad.append(f"Sát Chủ tháng {lunar.month} — kỵ động thổ")
     if THU_TU_THANG.get(lunar.month) == day_cc.chi:
         score -= 60
         bad.append(f"Thụ Tử tháng {lunar.month} — kỵ tuyệt đối")
 
     # ─── Trùng tang (riêng cho nhập trạch) ───────────────────────
-    if purpose == Purpose.NHAP_TRACH:
-        if TRUNG_TANG_THANG.get(lunar.month) == day_cc.can:
-            score -= 30
-            bad.append(f"Trùng tang tháng {lunar.month} — can {day_cc.can} kỵ nhập trạch")
+    if (
+        purpose == Purpose.NHAP_TRACH
+        and TRUNG_TANG_THANG.get(lunar.month) == day_cc.can
+    ):
+        score -= 30
+        bad.append(f"Trùng tang tháng {lunar.month} — can {day_cc.can} kỵ nhập trạch")
 
     # ─── Cuối tuần (gợi ý mềm) ──────────────────────────────────
     if solar_date.weekday() in (5, 6) and purpose == Purpose.KHAI_TRUONG:

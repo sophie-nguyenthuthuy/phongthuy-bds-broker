@@ -5,7 +5,6 @@ from __future__ import annotations
 from datetime import date
 
 from phongthuy_bds.services.feng_shui.engine import build_report_payload
-
 from phongthuy_ontology import Gender
 
 

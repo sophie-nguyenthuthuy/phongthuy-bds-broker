@@ -27,14 +27,19 @@ select = [
     "PT",             # pytest
 ]
 ignore = [
-    "E501",   # line too long (covered by formatter)
-    "B008",   # function call in default arg (FastAPI Depends)
-    "N812",   # lowercase imported as non-lowercase (false positives with VN terms)
+    "E501",     # line too long (covered by formatter)
+    "B008",     # function call in default arg (FastAPI Depends)
+    "N812",     # lowercase imported as non-lowercase (false positive với VN terms)
+    "RUF001",   # ambiguous unicode (false-positive với tiếng Việt: ố, ề, …)
+    "RUF002",   # idem trong docstring
+    "RUF003",   # idem trong comment
+    "UP037",    # quoted annotation (cố tình giữ cho forward-ref)
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["B", "PT011"]
-"alembic/**" = ["E", "F", "N"]
+"**/tests/**" = ["B", "PT011", "PT006", "SIM", "F841", "RUF007", "B905"]
+"**/alembic/**" = ["E", "F", "N"]
+"**/scripts/**" = ["T20"]
 
 [tool.mypy]
 python_version = "3.12"

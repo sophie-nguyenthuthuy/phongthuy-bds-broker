@@ -139,10 +139,11 @@ def _lac_thu_for_female(lunar_year: int) -> int:
 
 def cung_menh_from_lunar_year(lunar_year: int, gender: Gender) -> CungMenhResult:
     """Tính cung mệnh từ năm âm lịch + giới tính."""
-    if gender == Gender.NAM:
-        n = _lac_thu_for_male(lunar_year)
-    else:
-        n = _lac_thu_for_female(lunar_year)
+    n = (
+        _lac_thu_for_male(lunar_year)
+        if gender == Gender.NAM
+        else _lac_thu_for_female(lunar_year)
+    )
 
     notes: list[str] = []
     if n == 5:

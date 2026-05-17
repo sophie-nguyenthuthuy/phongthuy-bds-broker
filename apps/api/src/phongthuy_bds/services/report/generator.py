@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import uuid
-from pathlib import Path
 
 from sqlalchemy.orm import Session
 
@@ -19,7 +18,6 @@ from phongthuy_bds.db.models import (
 from phongthuy_bds.services.feng_shui.engine import build_report_payload
 from phongthuy_bds.services.report.pdf import render_html, render_pdf_bytes
 from phongthuy_bds.services.storage import get_storage
-
 from phongthuy_ontology import Gender
 
 log = get_logger(__name__)
@@ -97,7 +95,7 @@ def generate_report(db: Session, report_id: uuid.UUID) -> Report:
         db.commit()
         log.info("report.generated", report_id=str(report.id), key=key)
 
-    except Exception as e:  # noqa: BLE001 — re-raise as domain error
+    except Exception as e:
         log.exception("report.failed", report_id=str(report.id))
         report.status = ReportStatus.FAILED
         report.error_message = str(e)[:500]

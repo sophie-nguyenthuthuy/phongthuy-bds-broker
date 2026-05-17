@@ -5,7 +5,7 @@ from __future__ import annotations
 import uuid
 from decimal import Decimal
 
-from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel, Field
 from sqlalchemy import select
 
@@ -13,8 +13,6 @@ from phongthuy_bds.api.deps import CurrentUser, DbDep, require_role
 from phongthuy_bds.db.models import CreditTransaction
 from phongthuy_bds.services.billing.credits import get_balance, topup
 from phongthuy_bds.services.billing.vnpay import build_payment_url, verify_return
-
-from fastapi import Depends
 
 router = APIRouter(prefix="/billing", tags=["billing"])
 

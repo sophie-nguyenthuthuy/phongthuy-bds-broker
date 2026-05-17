@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter
 from pydantic import BaseModel
 from sqlalchemy import text
 
-from phongthuy_bds.api.deps import DbDep
 from phongthuy_bds import __version__
+from phongthuy_bds.api.deps import DbDep
 
 router = APIRouter(tags=["health"])
 
@@ -39,7 +39,7 @@ def ready(db: DbDep, response_class: type | None = None) -> ReadyResponse:
     try:
         db.execute(text("SELECT 1"))
         checks["db"] = "ok"
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         checks["db"] = f"fail: {e!s}"
     overall = "ok" if all(v == "ok" for v in checks.values()) else "fail"
     return ReadyResponse(status=overall, checks=checks)

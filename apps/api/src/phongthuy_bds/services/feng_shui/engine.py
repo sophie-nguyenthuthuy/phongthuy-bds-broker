@@ -8,6 +8,13 @@ from __future__ import annotations
 
 from datetime import date, timedelta
 
+from phongthuy_bds.schemas.report import (
+    CungMenhBlock,
+    DirectionBlock,
+    GoodDayBlock,
+    HouseMatchBlock,
+    ReportResultData,
+)
 from phongthuy_ontology import (
     Gender,
     Purpose,
@@ -16,15 +23,6 @@ from phongthuy_ontology import (
     match_house_direction,
     pick_good_days,
 )
-
-from phongthuy_bds.schemas.report import (
-    CungMenhBlock,
-    DirectionBlock,
-    GoodDayBlock,
-    HouseMatchBlock,
-    ReportResultData,
-)
-
 
 GOOD_QUALITY_ADVICE: dict[str, str] = {
     "Sinh Khí": "Hướng tốt nhất cho khách. Phù hợp đặt cửa chính/cửa hàng.",

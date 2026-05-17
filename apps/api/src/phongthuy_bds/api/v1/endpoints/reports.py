@@ -32,7 +32,7 @@ def _to_out(r: Report) -> ReportOut:
         customer_id=r.customer_id,
         land_title_id=r.land_title_id,
         status=r.status,
-        purposes=[p for p in r.purposes],  # noqa: C416
+        purposes=[p for p in r.purposes],
         result_data=r.result_data or {},
         pdf_url=storage.url_for(r.pdf_storage_key) if r.pdf_storage_key else None,
         credit_cost=r.credit_cost,

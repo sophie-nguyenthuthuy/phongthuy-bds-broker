@@ -3,8 +3,8 @@
 import pytest
 
 from phongthuy_ontology.bat_trach import (
-    DirectionQuality,
     GOOD_QUALITIES,
+    DirectionQuality,
     bat_trach_for_cung,
     direction_from_degrees,
     match_house_direction,

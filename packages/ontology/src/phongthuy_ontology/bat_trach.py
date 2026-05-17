@@ -13,7 +13,7 @@ from typing import Any
 
 import yaml
 
-from phongthuy_ontology.cung_menh import Cung, CungMenhResult
+from phongthuy_ontology.cung_menh import Cung
 
 DATA_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "bat_trach.yaml"
 

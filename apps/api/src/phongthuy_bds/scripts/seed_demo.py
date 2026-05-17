@@ -93,8 +93,8 @@ def seed() -> None:
         db.commit()
         print("✓ Seed thành công:")
         print(f"  Tenant ID: {tenant.id}")
-        print(f"  Owner    : owner@demo.local / changeme123")
-        print(f"  Broker   : broker@demo.local / changeme123")
+        print("  Owner    : owner@demo.local / changeme123")
+        print("  Broker   : broker@demo.local / changeme123")
         print(f"  Credit   : {tenant.credit_balance}")
     finally:
         db.close()

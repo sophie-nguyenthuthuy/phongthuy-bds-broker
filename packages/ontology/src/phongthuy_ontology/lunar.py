@@ -130,7 +130,7 @@ def _lunar_month_11(yy: int, time_zone: int = VN_TIMEZONE) -> int:
     off = _jd_from_date(31, 12, yy) - 2415021
     k = int(off / 29.530588853)
     nm = _new_moon_day(k, time_zone)
-    sun_long = _sun_longitude(nm)  # noqa: SLF001
+    sun_long = _sun_longitude(nm)
     if sun_long >= 9:
         nm = _new_moon_day(k - 1, time_zone)
     return nm

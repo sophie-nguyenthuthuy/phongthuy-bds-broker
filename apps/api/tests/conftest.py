@@ -7,7 +7,6 @@ import os
 from collections.abc import Generator
 
 import pytest
-from cryptography.fernet import Fernet
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
@@ -36,8 +35,8 @@ def _set_env() -> None:
 @pytest.fixture
 def db() -> Generator[Session, None, None]:
     """Fresh in-memory SQLite per test."""
-    from phongthuy_bds.db.base import Base
     from phongthuy_bds.db import models  # noqa: F401
+    from phongthuy_bds.db.base import Base
 
     engine = create_engine(
         "sqlite:///:memory:",
@@ -45,8 +44,8 @@ def db() -> Generator[Session, None, None]:
         poolclass=StaticPool,
     )
     Base.metadata.create_all(engine)
-    SessionFactory = sessionmaker(bind=engine, autoflush=False, autocommit=False)
-    session = SessionFactory()
+    session_factory = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+    session = session_factory()
     try:
         yield session
     finally:
