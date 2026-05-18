@@ -1,0 +1,90 @@
+# Dependabot — tự động mở PR vá lỗ hổng / bump deps.
+# Lịch quét: thứ 2 hàng tuần lúc 06:00 UTC (13:00 VN — giờ làm việc).
+version: 2
+
+updates:
+  # ─── Python: ontology package ────────────────────────────────────
+  - package-ecosystem: "pip"
+    directory: "/packages/ontology"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Asia/Ho_Chi_Minh"
+    open-pull-requests-limit: 5
+    labels: ["deps", "python", "ontology"]
+    commit-message:
+      prefix: "deps(ontology)"
+    groups:
+      python-minor-patch:
+        update-types: ["minor", "patch"]
+
+  # ─── Python: API ─────────────────────────────────────────────────
+  - package-ecosystem: "pip"
+    directory: "/apps/api"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Asia/Ho_Chi_Minh"
+    open-pull-requests-limit: 10
+    labels: ["deps", "python", "api"]
+    commit-message:
+      prefix: "deps(api)"
+    groups:
+      python-minor-patch:
+        update-types: ["minor", "patch"]
+    ignore:
+      # passlib 1.7 không tương thích bcrypt 5.x — pin cố ý.
+      - dependency-name: "bcrypt"
+        versions: [">=4.1"]
+
+  # ─── Node: web ───────────────────────────────────────────────────
+  - package-ecosystem: "npm"
+    directory: "/apps/web"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Asia/Ho_Chi_Minh"
+    open-pull-requests-limit: 10
+    labels: ["deps", "javascript", "web"]
+    commit-message:
+      prefix: "deps(web)"
+    groups:
+      next-minor-patch:
+        patterns: ["next", "react*", "@next/*"]
+        update-types: ["minor", "patch"]
+      tailwind:
+        patterns: ["tailwindcss", "@tailwindcss/*", "postcss", "autoprefixer"]
+      types:
+        patterns: ["@types/*"]
+        update-types: ["minor", "patch"]
+
+  # ─── GitHub Actions ─────────────────────────────────────────────
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Asia/Ho_Chi_Minh"
+    labels: ["deps", "ci"]
+    commit-message:
+      prefix: "ci(deps)"
+    groups:
+      actions:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+  # ─── Docker base images ─────────────────────────────────────────
+  - package-ecosystem: "docker"
+    directory: "/infra/docker"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "Asia/Ho_Chi_Minh"
+    labels: ["deps", "docker"]
+    commit-message:
+      prefix: "deps(docker)"

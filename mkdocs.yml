@@ -1,0 +1,82 @@
+site_name: Phong Thủy BĐS
+site_description: Plug-in chốt deal phong thủy cho môi giới BĐS Việt Nam — tài liệu kiến trúc + nguyên lý phong thủy + tuân thủ pháp lý.
+site_url: https://sophie-nguyenthuthuy.github.io/phongthuy-bds-broker/
+repo_url: https://github.com/sophie-nguyenthuthuy/phongthuy-bds-broker
+repo_name: sophie-nguyenthuthuy/phongthuy-bds-broker
+edit_uri: edit/main/docs/
+copyright: >
+  © 2026 Phong Thủy BĐS contributors —
+  <a href="https://github.com/sophie-nguyenthuthuy/phongthuy-bds-broker/blob/main/LICENSE">BUSL-1.1</a>.
+
+theme:
+  name: material
+  language: vi
+  palette:
+    - scheme: default
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Chuyển sang dark mode
+    - scheme: slate
+      primary: deep orange
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Chuyển sang light mode
+  font:
+    text: Be Vietnam Pro
+    code: JetBrains Mono
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - toc.follow
+    - content.action.edit
+    - content.code.copy
+    - search.highlight
+    - search.share
+
+nav:
+  - Trang chủ: index.md
+  - Kiến trúc: architecture.md
+  - Đặc tả phong thủy: feng-shui-spec.md
+  - Tuân thủ pháp lý: legal-compliance.md
+  - Đóng góp: contributing.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: "¶"
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+plugins:
+  - search:
+      lang:
+        - vi
+        - en
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/sophie-nguyenthuthuy/phongthuy-bds-broker

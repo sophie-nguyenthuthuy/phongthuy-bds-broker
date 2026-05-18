@@ -57,3 +57,4 @@ packages/ontology/src/phongthuy_ontology.egg-info/
 # OCR temp
 tmp/
 *.tmp.pdf
+.docs-venv/

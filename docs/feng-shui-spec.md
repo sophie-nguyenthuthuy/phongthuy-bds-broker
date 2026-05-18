@@ -65,7 +65,8 @@ Mỗi cung có 4 hướng tốt + 4 hướng xấu, gồm 8 sao:
 | Ngũ Quỷ        | Hao tài, kiện tụng              | Xấu nặng        |
 | Tuyệt Mệnh     | Tổn mạng                        | Xấu nhất        |
 
-Mapping cụ thể cho từng cung: xem [packages/ontology/data/bat_trach.yaml](../packages/ontology/data/bat_trach.yaml).
+Mapping cụ thể cho từng cung: xem
+[`packages/ontology/data/bat_trach.yaml`](https://github.com/sophie-nguyenthuthuy/phongthuy-bds-broker/blob/main/packages/ontology/data/bat_trach.yaml).
 
 Nguồn: **Bát Trạch Minh Cảnh** (八宅明鏡), Cố Cảnh Hiên 顾镜轩, đời Thanh.
 
@@ -90,7 +91,8 @@ Mỗi nạp âm thuộc 1 trong 5 hành. Ví dụ:
 - Giáp Tý + Ất Sửu = **Hải Trung Kim** (Kim trong biển)
 - Canh Ngọ + Tân Mùi = **Lộ Bàng Thổ** (đất ven đường)
 
-Bảng đầy đủ: [can_chi.py NAP_AM_TABLE](../packages/ontology/src/phongthuy_ontology/can_chi.py).
+Bảng đầy đủ:
+[`can_chi.py` → `NAP_AM_TABLE`](https://github.com/sophie-nguyenthuthuy/phongthuy-bds-broker/blob/main/packages/ontology/src/phongthuy_ontology/can_chi.py).
 
 ## 4. Lục xung / Lục hại / Tam hình
 

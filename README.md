@@ -4,8 +4,14 @@
 > báo cáo phong thủy chuyên nghiệp: **hợp tuổi, hướng nhà, ngày tốt động thổ / nhập trạch**.
 > Cây búa chốt deal của môi giới VN, hiện vẫn làm thủ công bằng lịch giấy.
 
-[![CI](https://github.com/.../phongthuy-bds-broker/actions/workflows/ci.yml/badge.svg)](./.github/workflows/ci.yml)
+[![CI](https://github.com/sophie-nguyenthuthuy/phongthuy-bds-broker/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sophie-nguyenthuthuy/phongthuy-bds-broker/actions/workflows/ci.yml)
+[![Security](https://github.com/sophie-nguyenthuthuy/phongthuy-bds-broker/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/sophie-nguyenthuthuy/phongthuy-bds-broker/actions/workflows/security.yml)
+[![Docs](https://github.com/sophie-nguyenthuthuy/phongthuy-bds-broker/actions/workflows/pages.yml/badge.svg?branch=main)](https://sophie-nguyenthuthuy.github.io/phongthuy-bds-broker/)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/)
+[![Next.js 14](https://img.shields.io/badge/Next.js-14-black.svg)](https://nextjs.org/)
 [![License: BUSL-1.1](https://img.shields.io/badge/License-BUSL--1.1-blue.svg)](./LICENSE)
+
+📖 **Docs**: <https://sophie-nguyenthuthuy.github.io/phongthuy-bds-broker/>
 
 ---
 
